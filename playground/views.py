@@ -10,7 +10,7 @@ from django.db.models import Q, F, Value, Func, Count, Max, Min, Avg, Sum, Expre
 from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from tags.models import TaggedItem
-from django.db import transaction
+from django.db import transaction, connection
 
 
 def say_hello(request):
@@ -93,7 +93,16 @@ def say_hello(request):
     #     item.unit_price = 10
     #     item.save()
 
-    queryset = Product.objects.raw('SELECT * FROM store_product')
+    # queryset = Product.objects.raw('SELECT * FROM store_product')
+    # queryset = Product.objects.raw('SELECT id, title FROM store_product')
+
+    # cursor = connection.cursor()
+    # cursor.execute('')
+    # cursor.close()
+
+    # with connection.cursor() as cursor:
+    #     # cursor.execute()
+    #     cursor.callproc('get_customers', [1, 2, 'a'])
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
