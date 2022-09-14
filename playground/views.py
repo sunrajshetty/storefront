@@ -48,9 +48,8 @@ def say_hello(request):
     # queryset = Customer.objects.annotate(order_count=Count('order')).filter(order_count__gte=5)
     # queryset = Customer.objects.annotate(total_spent=Sum(F('order__orderitem__unit_price') * F('order__orderitem__quantity')))
     # queryset = Product.objects.annotate(total_sales=Sum(F('orderitem__unit_price') * F('orderitem__quantity'))).order_by('-total_sales')[:5]
-    content_type = ContentType.objects.get_for_model(Product)
 
-    queryset = TaggedItem.objects.select_related('tag').filter(content_type=content_type, object_id=1)
+    TaggedItem.objects.get_tags_for(product, 1)
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
