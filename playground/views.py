@@ -6,9 +6,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from store.models import Collection, Customer, Order, Product, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, F, Value, Func
+from django.db.models import Q, F, Value, Func, Count, Max, Min, Avg, Sum
 from django.db.models.functions import Concat
-from django.db.models.aggregates import Count, Max, Min, Avg, Sum
 
 
 
@@ -39,7 +38,7 @@ def say_hello(request):
     # queryset = Customer.objects.annotate(is_new=Value(True))
     # queryset = Customer.objects.annotate(new_id=F('id') + 1)
     # queryset = Customer.objects.annotate(full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
-    queryset = Customer.objects.annotate(full_name=Concat('first_name', Value(' '), 'last_name'))
+    queryset = Customer.objects.annotate(orders_count=Count('order'))
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
