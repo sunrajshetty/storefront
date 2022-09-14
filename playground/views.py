@@ -48,12 +48,27 @@ def say_hello(request):
     # queryset = Customer.objects.annotate(order_count=Count('order')).filter(order_count__gte=5)
     # queryset = Customer.objects.annotate(total_spent=Sum(F('order__orderitem__unit_price') * F('order__orderitem__quantity')))
     # queryset = Product.objects.annotate(total_sales=Sum(F('orderitem__unit_price') * F('orderitem__quantity'))).order_by('-total_sales')[:5]
+    # TaggedItem.objects.get_tags_for(product, 1)
+    # queryset = Product.objects.all()
+    # queryset[0]
+    # list(queryset)
+    collection = Collection()
+    collection.title = 'Video Games'
+    collection.featured_product = Product(pk=1)
+    # collection.featured_product_pk = 1
+    collection.save()
+    collection.id 
 
-    TaggedItem.objects.get_tags_for(product, 1)
+    # collection = Collection.objects.create(name='a', featured_product_id=1)
+    # collection.id
+
+
+
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
     # return render(request, 'hello.html', {'name': 'Mosh', 'result': result})
     # return render(request, 'hello.html', {'name': 'Mosh', 'result': list(queryset)})
-    return render(request, 'hello.html', {'name': 'Mosh', 'tags': list(queryset)})
+    # return render(request, 'hello.html', {'name': 'Mosh', 'tags': list(queryset)})
     # return render(request, 'hello.html', {'name': 'Mosh', 'product': product})
+    return render(request, 'hello.html', {'name': 'Mosh'})
