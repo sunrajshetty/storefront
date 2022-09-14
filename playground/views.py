@@ -61,7 +61,11 @@ def say_hello(request):
 
     # collection = Collection.objects.create(name='a', featured_product_id=1)
     # collection.id
-    Collection.objects.filter(pk=11).update(featured_product=None)
+    # Collection.objects.filter(pk=11).update(featured_product=None)
+    # collection = Collection(pk=11)
+    # collection.delete()
+
+    Collection.objects.filter(id__gt=5).delete()
 
 
 
