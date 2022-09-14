@@ -39,9 +39,13 @@ def say_hello(request):
     # queryset = Customer.objects.annotate(new_id=F('id') + 1)
     # queryset = Customer.objects.annotate(full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
     # queryset = Customer.objects.annotate(orders_count=Count('order'))
-    discounted_price = ExpressionWrapper(F('unit_price') * 0.8, output_field=DecimalField())
-    queryset = Product.objects.annotate(discounted_price=discounted_price)
+    # discounted_price = ExpressionWrapper(F('unit_price') * 0.8, output_field=DecimalField())
+    # queryset = Product.objects.annotate(discounted_price=discounted_price)
     # queryset = Product.objects.annotate(discounted_price=F('unit_price') * 0.8)
+    # queryset = Customer.objects.annotate(last_order_id=Max('order__id'))
+    # queryset = Customer.objects.annotate(order_count=Count('order')).filter(order_count__gte=5)
+    # queryset = Customer.objects.annotate(total_spent=Sum(F('order__orderitem__unit_price') * F('order__orderitem__quantity')))
+    queryset = Product.objects.annotate(total_sales=Sum(F('orderitem__unit_price') * F('orderitem__quantity'))).order_by('-total_sales')[:5]
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
