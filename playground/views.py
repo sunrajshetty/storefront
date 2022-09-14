@@ -1,9 +1,10 @@
+import email
 from genericpath import exists
 from itertools import product
 from turtle import title
 from django.shortcuts import render
 from django.http import HttpResponse
-from store.models import Order, Product, OrderItem
+from store.models import Collection, Customer, Order, Product, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
 from django.db.models.aggregates import Count, Max, Min, Avg, Sum
@@ -32,9 +33,10 @@ def say_hello(request):
     # queryset = Product.objects.prefetch_related('promotions').select_related('collection').all()
     # queryset = Order.objects.select_related('customer').prefetch_related('orderitem_set__product').order_by('-placed_at')[:5]
     # result = Product.objects.filter(collection__id=1).aggregate(count=Count('id'), min_price=Min('unit_price'))
-    result = Product.objects.aggregate(count=Count('id'), min_price=Min('unit_price'))
+    # result = Product.objects.aggregate(count=Count('id'), min_price=Min('unit_price'))
+    result = Product.objects.filter(collection__id=3).aggregate(min_price=Min('unit_price'), avg_price=Avg('unit_price'), max_price=Max('unit_price'))
 
-    # return render(request, 'hello.html', {'name': 'Mosh', 'products': list(queryset)})
+    # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
     return render(request, 'hello.html', {'name': 'Mosh', 'result': result})
     # return render(request, 'hello.html', {'name': 'Mosh', 'product': product})
