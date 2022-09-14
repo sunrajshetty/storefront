@@ -4,7 +4,7 @@ from itertools import product
 from turtle import title
 from django.shortcuts import render
 from django.http import HttpResponse
-from store.models import Collection, Customer, Order, Product, OrderItem
+from store.models import Cart, CartItem, Collection, Customer, Order, Product, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F, Value, Func, Count, Max, Min, Avg, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
@@ -65,9 +65,22 @@ def say_hello(request):
     # collection = Collection(pk=11)
     # collection.delete()
 
-    Collection.objects.filter(id__gt=5).delete()
+    # Collection.objects.filter(id__gt=5).delete()
+    # cart = Cart()
+    # cart.save()
 
+    # item1 = CartItem()
+    # item1.cart = cart
+    # item1.product_id = 1
+    # item1.quantity = 1
+    # item1.save()
 
+    # item1 = CartItem.objects.get(pk=1)
+    # item1.quantity = 2
+    # item1.save()
+
+    cart = Cart(pk=1)
+    cart.delete()
 
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
