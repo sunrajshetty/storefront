@@ -10,8 +10,7 @@ from django.db.models import Q, F, Value, Func, Count, Max, Min, Avg, Sum, Expre
 from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from tags.models import TaggedItem
-
-
+from django.db import transaction
 
 
 def say_hello(request):
@@ -79,8 +78,21 @@ def say_hello(request):
     # item1.quantity = 2
     # item1.save()
 
-    cart = Cart(pk=1)
-    cart.delete()
+    # cart = Cart(pk=1)
+    # cart.delete()
+    with transaction.atomic():
+        order = Order()
+        order.customer_id = 1
+        order.save()
+
+        item = OrderItem()
+        item.order = order
+        item.product_id = 1
+        item.quantity = 1
+        item.unit_price = 10
+        item.save()
+
+
 
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
