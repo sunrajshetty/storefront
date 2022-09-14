@@ -52,15 +52,16 @@ def say_hello(request):
     # queryset = Product.objects.all()
     # queryset[0]
     # list(queryset)
-    collection = Collection()
-    collection.title = 'Video Games'
-    collection.featured_product = Product(pk=1)
-    # collection.featured_product_pk = 1
-    collection.save()
-    collection.id 
+    # collection = Collection.objects.get(pk=11)
+    # collection.title = 'Games'
+    # collection.featured_product = None
+    # # collection.featured_product_pk = 1
+    # collection.save()
+   
 
     # collection = Collection.objects.create(name='a', featured_product_id=1)
     # collection.id
+    Collection.objects.filter(pk=11).update(featured_product=None)
 
 
 
