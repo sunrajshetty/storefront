@@ -8,6 +8,8 @@ from store.models import Collection, Customer, Order, Product, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F, Value, Func, Count, Max, Min, Avg, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
+from django.contrib.contenttypes.models import ContentType
+from tags.models import TaggedItem
 
 
 
@@ -45,10 +47,14 @@ def say_hello(request):
     # queryset = Customer.objects.annotate(last_order_id=Max('order__id'))
     # queryset = Customer.objects.annotate(order_count=Count('order')).filter(order_count__gte=5)
     # queryset = Customer.objects.annotate(total_spent=Sum(F('order__orderitem__unit_price') * F('order__orderitem__quantity')))
-    queryset = Product.objects.annotate(total_sales=Sum(F('orderitem__unit_price') * F('orderitem__quantity'))).order_by('-total_sales')[:5]
+    # queryset = Product.objects.annotate(total_sales=Sum(F('orderitem__unit_price') * F('orderitem__quantity'))).order_by('-total_sales')[:5]
+    content_type = ContentType.objects.get_for_model(Product)
+
+    queryset = TaggedItem.objects.select_related('tag').filter(content_type=content_type, object_id=1)
 
     # return render(request, 'hello.html', {'name': 'Mosh', 'products': queryset})
     # return render(request, 'hello.html', {'name': 'Mosh', 'orders': list(queryset)})
     # return render(request, 'hello.html', {'name': 'Mosh', 'result': result})
-    return render(request, 'hello.html', {'name': 'Mosh', 'result': list(queryset)})
+    # return render(request, 'hello.html', {'name': 'Mosh', 'result': list(queryset)})
+    return render(request, 'hello.html', {'name': 'Mosh', 'tags': list(queryset)})
     # return render(request, 'hello.html', {'name': 'Mosh', 'product': product})
