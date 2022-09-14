@@ -5,11 +5,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from store.models import Product
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.db.models import Q
 
 
 
 def say_hello(request):
-    query_set = Product.objects.filter(description__isnull=True)
+    queryset = Product.objects.filter(Q(inventory__lt=10) & ~Q(unit_price__lt=20))
 
-    return render(request, 'hello.html', {'name': 'Mosh', 'products': list(query_set)})
+    return render(request, 'hello.html', {'name': 'Mosh', 'products': list(queryset)})
