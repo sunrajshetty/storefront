@@ -10,6 +10,10 @@ from django.db.models import Q, F
 
 
 def say_hello(request):
-    queryset = Product.objects.filter(inventory=F('collection_id'))
+    # queryset = Product.objects.order_by('unit_price', '-title').reverse()
+    # product = Product.objects.order_by('unit_price')[0]
+    # product = Product.objects.earliest('unit_price')
+    product = Product.objects.latest('unit_price')
 
-    return render(request, 'hello.html', {'name': 'Mosh', 'products': list(queryset)})
+    # return render(request, 'hello.html', {'name': 'Mosh', 'products': list(queryset)})
+    return render(request, 'hello.html', {'name': 'Mosh', 'product': product})
