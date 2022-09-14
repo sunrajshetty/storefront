@@ -5,17 +5,19 @@
     {% else %}
     <h1>Hello World</h1>
     {% endif %}
-    <ul>
-      {% for order in orders %}
+
+    {{ result }}
+    <!-- <ul> -->
+      <!-- {% for order in orders %} -->
         <!-- {% for product in products %} -->
         <!-- {% endfor %} -->
         <!-- <li>{{ product.title }}</li> -->
-        <li>{{ order.id }} - {{ order.customer.first_name }}</li>
+        <!-- <li>{{ order.id }} - {{ order.customer.first_name }}</li> -->
         <!-- <li>{{ product.title }} - {{ product.collection.title }}</li> -->
         <!-- <li>{{ product.title }} ${{ product.unit_price }}</li> -->
         <!-- <li>{{ product.title }} : {{ product.description }}</li> -->
         <!-- <li>{{ product }}</li> -->
-      {% endfor %}
-    </ul>
+      <!-- {% endfor %} -->
+    <!-- </ul> -->
   </body>
 </html>
