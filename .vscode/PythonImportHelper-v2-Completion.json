@@ -337,6 +337,14 @@
         "documentation": {}
     },
     {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -367,22 +375,6 @@
         "description": "genericpath",
         "isExtraImport": true,
         "detail": "genericpath",
-        "documentation": {}
-    },
-    {
-        "label": "product",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
-        "documentation": {}
-    },
-    {
-        "label": "count",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
         "documentation": {}
     },
     {
@@ -471,15 +463,6 @@
         "description": "django.core.exceptions",
         "isExtraImport": true,
         "detail": "django.core.exceptions",
-        "documentation": {}
-    },
-    {
-        "label": "django.db.models",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "django.db.models",
-        "description": "django.db.models",
-        "detail": "django.db.models",
         "documentation": {}
     },
     {
@@ -600,6 +583,22 @@
         "description": "store",
         "isExtraImport": true,
         "detail": "store",
+        "documentation": {}
+    },
+    {
+        "label": "format_html",
+        "importPath": "django.utils.html",
+        "description": "django.utils.html",
+        "isExtraImport": true,
+        "detail": "django.utils.html",
+        "documentation": {}
+    },
+    {
+        "label": "urlencode",
+        "importPath": "django.utils.html",
+        "description": "django.utils.html",
+        "isExtraImport": true,
+        "detail": "django.utils.html",
         "documentation": {}
     },
     {
@@ -757,7 +756,7 @@
         "kind": 6,
         "importPath": "store.admin",
         "description": "store.admin",
-        "peekOfCode": "class CollectionAdmin(admin.ModelAdmin):\n    list_display = ['title', 'products_count']\n    def products_count(self,collection):\n        return collection.products_count\n    @admin.display(ordering='products_count')\n    def get_queryset(self, request):\n        return super().get_queryset(request).annotate(products_count=Count('product'))\n@admin.register(models.Customer)\nclass CustomerAdmin(admin.ModelAdmin):\n    list_display = ['first_name', 'last_name', 'membership']",
+        "peekOfCode": "class CollectionAdmin(admin.ModelAdmin):\n    list_display = ['title', 'products_count']\n    @admin.display(ordering='products_count')\n    def products_count(self,collection):\n        url = (reverse('admin:store_product_changelist') + '?' + urlencode({'collection__id': str(collection.id)}))\n        return format_html('<a href=\"{}\">{}</a>', url, collection.products_count)\n    def get_queryset(self, request):\n        return super().get_queryset(request).annotate(products_count=Count('product'))\n@admin.register(models.Customer)\nclass CustomerAdmin(admin.ModelAdmin):",
         "detail": "store.admin",
         "documentation": {}
     },
