@@ -482,6 +482,14 @@
         "documentation": {}
     },
     {
+        "label": "Order",
+        "importPath": "store.models",
+        "description": "store.models",
+        "isExtraImport": true,
+        "detail": "store.models",
+        "documentation": {}
+    },
+    {
         "label": "ObjectDoesNotExist",
         "importPath": "django.core.exceptions",
         "description": "django.core.exceptions",
@@ -836,11 +844,20 @@
         "documentation": {}
     },
     {
+        "label": "OrderItemInline",
+        "kind": 6,
+        "importPath": "store.admin",
+        "description": "store.admin",
+        "peekOfCode": "class OrderItemInline(admin.TabularInline):\n    autocomplete_fields = ['product']\n    min_num = 1\n    max_num = 10\n    extra = 0\n    model = models.OrderItem\n@admin.register(models.Order)\nclass OrderAdmin(admin.ModelAdmin):\n    autocomplete_fields = ['customer']\n    inlines = [OrderItemInline]",
+        "detail": "store.admin",
+        "documentation": {}
+    },
+    {
         "label": "OrderAdmin",
         "kind": 6,
         "importPath": "store.admin",
         "description": "store.admin",
-        "peekOfCode": "class OrderAdmin(admin.ModelAdmin):\n    autocomplete_fields = ['customer']\n    list_display = ['id', 'placed_at', 'customer']",
+        "peekOfCode": "class OrderAdmin(admin.ModelAdmin):\n    autocomplete_fields = ['customer']\n    inlines = [OrderItemInline]\n    list_display = ['id', 'placed_at', 'customer']",
         "detail": "store.admin",
         "documentation": {}
     },

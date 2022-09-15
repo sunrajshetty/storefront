@@ -4,6 +4,7 @@ from django.db.models import Count
 from store import models
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
+from store.models import Order
 
 
 class InventoryFilter(admin.SimpleListFilter):
@@ -34,6 +35,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['collection', 'last_update', InventoryFilter]
     list_per_page = 10
     list_select_related = ['collection']
+    search_fields = ['title']
 
     def collection_title(self, product):
         return product.collection.title
@@ -78,9 +80,16 @@ class CustomerAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(orders_count=Count('order'))
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    min_num = 1
+    max_num = 10
+    extra = 0
+    model = models.OrderItem
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
     list_display = ['id', 'placed_at', 'customer']
 
