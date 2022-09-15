@@ -169,6 +169,14 @@
         "documentation": {}
     },
     {
+        "label": "messages",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
         "label": "admin",
         "importPath": "django.contrib",
         "description": "django.contrib",
@@ -764,7 +772,7 @@
         "kind": 6,
         "importPath": "store.admin",
         "description": "store.admin",
-        "peekOfCode": "class ProductAdmin(admin.ModelAdmin):\n    list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']\n    list_editable = ['unit_price']\n    list_filter = ['collection', 'last_update', InventoryFilter]\n    list_per_page = 10\n    list_select_related = ['collection']\n    def collection_title(self, product):\n        return product.collection.title\n    @admin.display(ordering='inventory')\n    def inventory_status(self, product):",
+        "peekOfCode": "class ProductAdmin(admin.ModelAdmin):\n    actions = ['clear_inventory']\n    list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']\n    list_editable = ['unit_price']\n    list_filter = ['collection', 'last_update', InventoryFilter]\n    list_per_page = 10\n    list_select_related = ['collection']\n    def collection_title(self, product):\n        return product.collection.title\n    @admin.display(ordering='inventory')",
         "detail": "store.admin",
         "documentation": {}
     },
