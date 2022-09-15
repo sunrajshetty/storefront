@@ -610,6 +610,22 @@
         "documentation": {}
     },
     {
+        "label": "TaggedItem",
+        "importPath": "tags.models",
+        "description": "tags.models",
+        "isExtraImport": true,
+        "detail": "tags.models",
+        "documentation": {}
+    },
+    {
+        "label": "Tag",
+        "importPath": "tags.models",
+        "description": "tags.models",
+        "isExtraImport": true,
+        "detail": "tags.models",
+        "documentation": {}
+    },
+    {
         "label": "format_date_time",
         "importPath": "wsgiref.handlers",
         "description": "wsgiref.handlers",
@@ -639,6 +655,14 @@
         "description": "django.utils.html",
         "isExtraImport": true,
         "detail": "django.utils.html",
+        "documentation": {}
+    },
+    {
+        "label": "GenericTabularInline",
+        "importPath": "django.contrib.contenttypes.admin",
+        "description": "django.contrib.contenttypes.admin",
+        "isExtraImport": true,
+        "detail": "django.contrib.contenttypes.admin",
         "documentation": {}
     },
     {
@@ -817,11 +841,20 @@
         "documentation": {}
     },
     {
+        "label": "TagInline",
+        "kind": 6,
+        "importPath": "store.admin",
+        "description": "store.admin",
+        "peekOfCode": "class TagInline(GenericTabularInline):\n    autocomplete_fields = ['tag']\n    min_num = 1\n    model = TaggedItem\n    extra = 0\n@admin.register(models.Product)\nclass ProductAdmin(admin.ModelAdmin):\n    # fields = ['title', 'slug']\n    # exclude = ['promotions']\n    # readonly_fields = ['title']",
+        "detail": "store.admin",
+        "documentation": {}
+    },
+    {
         "label": "ProductAdmin",
         "kind": 6,
         "importPath": "store.admin",
         "description": "store.admin",
-        "peekOfCode": "class ProductAdmin(admin.ModelAdmin):\n    # fields = ['title', 'slug']\n    # exclude = ['promotions']\n    # readonly_fields = ['title']\n    autocomplete_fields = ['collection']\n    prepopulated_fields = {\n        'slug': ['title']\n        }\n    actions = ['clear_inventory']\n    list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']",
+        "peekOfCode": "class ProductAdmin(admin.ModelAdmin):\n    # fields = ['title', 'slug']\n    # exclude = ['promotions']\n    # readonly_fields = ['title']\n    autocomplete_fields = ['collection']\n    prepopulated_fields = {\n        'slug': ['title']\n        }\n    actions = ['clear_inventory']\n    inlines = [TagInline]",
         "detail": "store.admin",
         "documentation": {}
     },
@@ -1177,6 +1210,15 @@
         "documentation": {}
     },
     {
+        "label": "TagAdmin",
+        "kind": 6,
+        "importPath": "tags.admin",
+        "description": "tags.admin",
+        "peekOfCode": "class TagAdmin(admin.ModelAdmin):\n    search_fields = ['lable']",
+        "detail": "tags.admin",
+        "documentation": {}
+    },
+    {
         "label": "TagsConfig",
         "kind": 6,
         "importPath": "tags.apps",
@@ -1190,7 +1232,7 @@
         "kind": 6,
         "importPath": "tags.models",
         "description": "tags.models",
-        "peekOfCode": "class TaggedItemManager(models.Manager):\n    def get_tags_for(self, obj_type, obj_id):\n         content_type = ContentType.objects.get_for_model(obj_type)\n         return TaggedItem.objects.select_related('tag').filter(content_type=content_type, object_id=obj_id)\nclass Tag(models.Model):\n    label = models.CharField(max_length=255)\nclass TaggedItem(models.Model):\n    objects = TaggedItemManager()\n    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)\n    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)",
+        "peekOfCode": "class TaggedItemManager(models.Manager):\n    def get_tags_for(self, obj_type, obj_id):\n         content_type = ContentType.objects.get_for_model(obj_type)\n         return TaggedItem.objects.select_related('tag').filter(content_type=content_type, object_id=obj_id)\nclass Tag(models.Model):\n    label = models.CharField(max_length=255)\n    def __str__(self) -> str:\n        return self.label\nclass TaggedItem(models.Model):\n    objects = TaggedItemManager()",
         "detail": "tags.models",
         "documentation": {}
     },
@@ -1199,7 +1241,7 @@
         "kind": 6,
         "importPath": "tags.models",
         "description": "tags.models",
-        "peekOfCode": "class Tag(models.Model):\n    label = models.CharField(max_length=255)\nclass TaggedItem(models.Model):\n    objects = TaggedItemManager()\n    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)\n    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)\n    object_id = models.PositiveIntegerField()\n    content_object = GenericForeignKey()",
+        "peekOfCode": "class Tag(models.Model):\n    label = models.CharField(max_length=255)\n    def __str__(self) -> str:\n        return self.label\nclass TaggedItem(models.Model):\n    objects = TaggedItemManager()\n    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)\n    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)\n    object_id = models.PositiveIntegerField()\n    content_object = GenericForeignKey()",
         "detail": "tags.models",
         "documentation": {}
     },

@@ -5,6 +5,9 @@ from store import models
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
 from store.models import Order
+from django.contrib.contenttypes.admin import GenericTabularInline
+
+from tags.models import TaggedItem
 
 
 class InventoryFilter(admin.SimpleListFilter):
@@ -19,6 +22,12 @@ class InventoryFilter(admin.SimpleListFilter):
         if self.value() == '<10':
             return queryset.filter(inventory__lt=10)
 
+class TagInline(GenericTabularInline):
+    autocomplete_fields = ['tag']
+    min_num = 1
+    model = TaggedItem
+    extra = 0
+
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -30,6 +39,7 @@ class ProductAdmin(admin.ModelAdmin):
         'slug': ['title']
         }
     actions = ['clear_inventory']
+    inlines = [TagInline]
     list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']
     list_editable = ['unit_price']
     list_filter = ['collection', 'last_update', InventoryFilter]
