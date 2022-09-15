@@ -1,6 +1,7 @@
-from itertools import product
+import django.db.models
+from itertools import count, product
 from django.contrib import admin
-
+from django.db.models import Count
 from store import models
 
 @admin.register(models.Product)
@@ -19,7 +20,16 @@ class ProductAdmin(admin.ModelAdmin):
             return 'Low'
         return 'OK'
 
-admin.site.register(models.Collection)
+@admin.register(models.Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'products_count']
+
+    def products_count(self,collection):
+        return collection.products_count
+
+    @admin.display(ordering='products_count')
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(products_count=Count('product'))
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -32,3 +42,4 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'placed_at', 'customer']
+
